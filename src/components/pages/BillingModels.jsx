@@ -683,4 +683,3 @@ const handleConfigureModel = (model) => {
 };
 
 export default BillingModels;
-export default BillingModels;
