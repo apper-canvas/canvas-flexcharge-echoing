@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import Card from '@/components/atoms/Card';
-import Button from '@/components/atoms/Button';
-import Badge from '@/components/atoms/Badge';
-import ApperIcon from '@/components/ApperIcon';
-import { motion } from 'framer-motion';
-import { cn } from '@/utils/cn';
-
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { cn } from "@/utils/cn";
+import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Settings from "@/components/pages/Settings";
 const BillingModelCard = ({ 
   model, 
   isSelected, 
@@ -68,86 +68,79 @@ const BillingModelCard = ({
 
   return (
     <motion.div
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.2 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Card
+    whileHover={{
+        y: -4
+    }}
+    transition={{
+        duration: 0.2
+    }}
+    onMouseEnter={() => setIsHovered(true)}
+    onMouseLeave={() => setIsHovered(false)}>
+    <Card
         className={cn(
-          "p-6 cursor-pointer transition-all duration-300",
-          isSelected ? "ring-2 ring-secondary shadow-lg" : "hover:shadow-lg",
-          isConfigured && "border-accent"
+            "p-6 cursor-pointer transition-all duration-300",
+            isSelected ? "ring-2 ring-secondary shadow-lg" : "hover:shadow-lg",
+            isConfigured && "border-accent"
         )}
-        onClick={() => onSelect(model)}
-      >
+        onClick={() => onSelect(model)}>
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <div className={cn(
-              "p-3 rounded-lg transition-colors duration-200",
-              isSelected ? "bg-secondary text-white" : "bg-gray-100 text-gray-600"
-            )}>
-              <ApperIcon name={getModelIcon(model.type)} className="h-6 w-6" />
+            <div className="flex items-center space-x-3">
+                <div
+                    className={cn(
+                        "p-3 rounded-lg transition-colors duration-200",
+                        isSelected ? "bg-secondary text-white" : "bg-gray-100 text-gray-600"
+                    )}>
+                    <ApperIcon name={getModelIcon(model.type)} className="h-6 w-6" />
+                </div>
+                <div>
+                    <h3 className="text-lg font-semibold text-gray-900 capitalize">
+                        {model.name || model.type.replace("-", " ")}
+                        <h3 className="text-lg font-semibold text-gray-900 capitalize">
+                            {model.name || model.type.replace("-", " ")}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-1">
+                            {isConfigured && <Badge variant="accent" size="sm">Configured
+                                                  </Badge>}
+                            {model.configuration && Object.keys(model.configuration).length > 0 && <Badge variant="secondary" size="sm">
+                                {Object.keys(model.configuration).length}Settings
+                                                  </Badge>}
+                        </div>
+                    </h3></div>
+                {isSelected && <ApperIcon name="Check" className="h-5 w-5 text-secondary" />}
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 capitalize">
-                {model.name || model.type.replace('-', ' ')}
-              </h3>
-              {isConfigured && (
-                <Badge variant="accent" size="sm">
-                  Configured
-                </Badge>
-              )}
+            <p className="text-gray-600 mb-4">
+                {getModelDescription(model.type)}
+            </p>
+            <div className="mb-4">
+                <p className="text-sm font-medium text-gray-700 mb-2">Best for:</p>
+                <div className="flex flex-wrap gap-1">
+                    {getBestFor(model.type).map(item => <Badge key={item} variant="default" size="sm">
+                        {item}
+                    </Badge>)}
+                </div>
             </div>
-          </div>
-          {isSelected && (
-            <ApperIcon name="Check" className="h-5 w-5 text-secondary" />
-          )}
-        </div>
-
-        <p className="text-gray-600 mb-4">
-          {getModelDescription(model.type)}
-        </p>
-
-        <div className="mb-4">
-          <p className="text-sm font-medium text-gray-700 mb-2">Best for:</p>
-          <div className="flex flex-wrap gap-1">
-            {getBestFor(model.type).map((item) => (
-              <Badge key={item} variant="default" size="sm">
-                {item}
-              </Badge>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex justify-between items-center">
-          <Button
-            variant={isSelected ? "primary" : "secondary"}
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelect(model);
-            }}
-          >
-            {isSelected ? "Selected" : "Select"}
-          </Button>
-          
-          {(isSelected || isConfigured) && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                onConfigure(model);
-              }}
-            >
-              Configure
-              <ApperIcon name="Settings" className="h-4 w-4 ml-1" />
-            </Button>
-          )}
-        </div>
-      </Card>
-    </motion.div>
+            <div className="flex justify-between items-center">
+                <Button
+                    variant={isSelected ? "primary" : "secondary"}
+                    size="sm"
+                    onClick={e => {
+                        e.stopPropagation();
+                        onSelect(model);
+                    }}>
+                    {isSelected ? "Selected" : "Select"}
+                </Button>
+                {(isSelected || isConfigured) && <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={e => {
+                        e.stopPropagation();
+                        onConfigure(model);
+                    }}>Configure
+                                  <ApperIcon name="Settings" className="h-4 w-4 ml-1" />
+                </Button>}
+            </div>
+        </div></Card>
+</motion.div>
   );
 };
 

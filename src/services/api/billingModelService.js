@@ -31,7 +31,7 @@ class BillingModelService {
     return { ...newModel };
   }
 
-  async update(id, data) {
+async update(id, data) {
     await this.delay();
     const index = this.models.findIndex(m => m.Id === parseInt(id));
     if (index === -1) {
@@ -42,6 +42,34 @@ class BillingModelService {
       ...this.models[index],
       ...data,
       Id: parseInt(id),
+      updatedAt: new Date().toISOString()
+    };
+    
+    // Deep merge configuration if provided
+    if (data.configuration) {
+      updated.configuration = {
+        ...this.models[index].configuration,
+        ...data.configuration
+      };
+    }
+    
+    this.models[index] = updated;
+    return { ...updated };
+  }
+
+  async updateConfiguration(id, configuration) {
+    await this.delay();
+    const index = this.models.findIndex(m => m.Id === parseInt(id));
+    if (index === -1) {
+      throw new Error('Billing model not found');
+    }
+    
+    const updated = {
+      ...this.models[index],
+      configuration: {
+        ...this.models[index].configuration,
+        ...configuration
+      },
       updatedAt: new Date().toISOString()
     };
     

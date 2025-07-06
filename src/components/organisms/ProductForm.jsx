@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import FormField from '@/components/molecules/FormField';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { toast } from "react-toastify";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import FormField from "@/components/molecules/FormField";
 
 const ProductForm = ({ 
   product, 
@@ -12,7 +13,7 @@ const ProductForm = ({
   onCancel,
   billingModel = null 
 }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: '',
     sku: '',
     description: '',
@@ -22,6 +23,23 @@ const ProductForm = ({
     comparePrice: '',
     creditsRequired: '',
     modelType: billingModel?.type || 'one-time',
+    // One-time purchase specific fields
+    deliveryMethod: 'download',
+    downloadLimit: '5',
+    downloadExpiration: '24h',
+    emailTemplate: '',
+    fileSizeLimit: '10',
+    accountDuration: 'lifetime',
+    deviceLimit: '3',
+    licenseType: 'personal',
+    generateLicenseKey: false,
+    activationRequired: false,
+    allowPreorders: false,
+    partialPayments: false,
+    minimumDeposit: '',
+    refundPolicy: 'none',
+    refundPeriod: '7',
+    customRefundText: '',
     ...product
   });
 
@@ -88,27 +106,220 @@ const ProductForm = ({
     }
   };
 
-  const renderModelSpecificFields = () => {
+const renderModelSpecificFields = () => {
     switch (formData.modelType) {
       case 'one-time':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              label="Price"
-              type="number"
-              value={formData.price}
-              onChange={(e) => handleChange('price', e.target.value)}
-              error={errors.price}
-              placeholder="0.00"
-              required
-            />
-            <FormField
-              label="Compare Price"
-              type="number"
-              value={formData.comparePrice}
-              onChange={(e) => handleChange('comparePrice', e.target.value)}
-              placeholder="0.00"
-            />
+          <div className="space-y-6">
+            {/* Pricing */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                label="Price"
+                type="number"
+                value={formData.price}
+                onChange={(e) => handleChange('price', e.target.value)}
+                error={errors.price}
+                placeholder="0.00"
+                required
+              />
+              <FormField
+                label="Compare Price"
+                type="number"
+                value={formData.comparePrice}
+                onChange={(e) => handleChange('comparePrice', e.target.value)}
+                placeholder="0.00"
+              />
+            </div>
+
+            {/* Delivery Method */}
+            <div>
+              <FormField
+                label="Delivery Method"
+                type="select"
+                value={formData.deliveryMethod}
+                onChange={(e) => handleChange('deliveryMethod', e.target.value)}
+              >
+                <option value="download">Instant Download</option>
+                <option value="email">Email Delivery</option>
+                <option value="account">Account-Based Access</option>
+                <option value="api">API/Webhook</option>
+                <option value="none">No Delivery</option>
+              </FormField>
+              
+              {formData.deliveryMethod === 'download' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <FormField
+                    label="Download Limit"
+                    type="number"
+                    value={formData.downloadLimit}
+                    onChange={(e) => handleChange('downloadLimit', e.target.value)}
+                    placeholder="5"
+                  />
+                  <FormField
+                    label="Download Expiration"
+                    type="select"
+                    value={formData.downloadExpiration}
+                    onChange={(e) => handleChange('downloadExpiration', e.target.value)}
+                  >
+                    <option value="24h">24 Hours</option>
+                    <option value="7d">7 Days</option>
+                    <option value="30d">30 Days</option>
+                    <option value="never">Never</option>
+                  </FormField>
+                </div>
+              )}
+              
+              {formData.deliveryMethod === 'email' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <FormField
+                    label="Email Template"
+                    value={formData.emailTemplate}
+                    onChange={(e) => handleChange('emailTemplate', e.target.value)}
+                    placeholder="Custom email template"
+                  />
+                  <FormField
+                    label="File Size Limit (MB)"
+                    type="number"
+                    value={formData.fileSizeLimit}
+                    onChange={(e) => handleChange('fileSizeLimit', e.target.value)}
+                    placeholder="10"
+                  />
+                </div>
+              )}
+              
+              {formData.deliveryMethod === 'account' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <FormField
+                    label="Account Duration"
+                    type="select"
+                    value={formData.accountDuration}
+                    onChange={(e) => handleChange('accountDuration', e.target.value)}
+                  >
+                    <option value="lifetime">Lifetime</option>
+                    <option value="1y">1 Year</option>
+                    <option value="6m">6 Months</option>
+                    <option value="custom">Custom</option>
+                  </FormField>
+                  <FormField
+                    label="Device Limit"
+                    type="number"
+                    value={formData.deviceLimit}
+                    onChange={(e) => handleChange('deviceLimit', e.target.value)}
+                    placeholder="3"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Licensing */}
+            <div className="space-y-4">
+              <h4 className="font-medium text-gray-900">Licensing</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  label="License Type"
+                  type="select"
+                  value={formData.licenseType}
+                  onChange={(e) => handleChange('licenseType', e.target.value)}
+                >
+                  <option value="personal">Personal</option>
+                  <option value="commercial">Commercial</option>
+                  <option value="extended">Extended</option>
+                  <option value="custom">Custom</option>
+                </FormField>
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={formData.generateLicenseKey}
+                      onChange={(e) => handleChange('generateLicenseKey', e.target.checked)}
+                      className="rounded border-gray-300"
+                    />
+                    <span className="text-sm text-gray-700">Generate License Keys</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={formData.activationRequired}
+                      onChange={(e) => handleChange('activationRequired', e.target.checked)}
+                      className="rounded border-gray-300"
+                    />
+                    <span className="text-sm text-gray-700">Activation Required</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Payment Options */}
+            <div className="space-y-4">
+              <h4 className="font-medium text-gray-900">Payment Options</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={formData.allowPreorders}
+                      onChange={(e) => handleChange('allowPreorders', e.target.checked)}
+                      className="rounded border-gray-300"
+                    />
+                    <span className="text-sm text-gray-700">Allow Pre-orders</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={formData.partialPayments}
+                      onChange={(e) => handleChange('partialPayments', e.target.checked)}
+                      className="rounded border-gray-300"
+                    />
+                    <span className="text-sm text-gray-700">Partial Payments</span>
+                  </label>
+                </div>
+                {formData.partialPayments && (
+                  <FormField
+                    label="Minimum Deposit"
+                    type="number"
+                    value={formData.minimumDeposit}
+                    onChange={(e) => handleChange('minimumDeposit', e.target.value)}
+                    placeholder="0.00"
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Refund Policy */}
+            <div className="space-y-4">
+              <h4 className="font-medium text-gray-900">Refund Policy</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  label="Refund Policy"
+                  type="select"
+                  value={formData.refundPolicy}
+                  onChange={(e) => handleChange('refundPolicy', e.target.value)}
+                >
+                  <option value="none">No Refunds</option>
+                  <option value="7d">7 Days</option>
+                  <option value="14d">14 Days</option>
+                  <option value="30d">30 Days</option>
+                  <option value="custom">Custom</option>
+                </FormField>
+                {formData.refundPolicy === 'custom' && (
+                  <FormField
+                    label="Custom Period (days)"
+                    type="number"
+                    value={formData.refundPeriod}
+                    onChange={(e) => handleChange('refundPeriod', e.target.value)}
+                    placeholder="7"
+                  />
+                )}
+              </div>
+              {formData.refundPolicy !== 'none' && (
+                <FormField
+                  label="Refund Policy Text"
+                  value={formData.customRefundText}
+                  onChange={(e) => handleChange('customRefundText', e.target.value)}
+                  placeholder="Enter custom refund policy text"
+                />
+              )}
+            </div>
           </div>
         );
       

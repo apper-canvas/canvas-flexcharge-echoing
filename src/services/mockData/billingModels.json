@@ -7,7 +7,39 @@
     "icon": "ShoppingCart",
     "isActive": false,
     "isPrimary": false,
-    "configuration": {}
+    "configuration": {
+      "delivery": {
+        "method": "download",
+        "downloadLimit": 5,
+        "downloadExpiration": "24h",
+        "ipRestriction": false,
+        "emailTemplate": "",
+        "fileSizeLimit": 10,
+        "accountDuration": "lifetime",
+        "deviceLimit": 3,
+        "apiEndpoint": "",
+        "webhookUrl": ""
+      },
+      "licensing": {
+        "type": "personal",
+        "generateKeys": false,
+        "activationRequired": false,
+        "allowCommercialUse": false,
+        "extendedLicense": false,
+        "customTerms": ""
+      },
+      "payments": {
+        "allowPreorders": false,
+        "partialPayments": false,
+        "minimumDeposit": 0,
+        "depositPercentage": 50
+      },
+      "refunds": {
+        "policy": "none",
+        "period": 7,
+        "customText": "All sales are final. No refunds will be provided."
+      }
+    }
   },
   {
     "Id": 2,
