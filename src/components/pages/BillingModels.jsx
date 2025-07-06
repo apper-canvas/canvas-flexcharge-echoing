@@ -483,32 +483,28 @@ const handleConfigureModel = (model) => {
     setConfigModal({ isOpen: true, model });
   };
 
-  const handleSaveConfiguration = async (modelId, configuration) => {
-    try {
-      await billingModelService.update(modelId, { configuration });
-      
-      // Update selected models with new configuration
-      setSelectedModels(prev => 
-        prev.map(m => 
-          m.id === modelId || m.Id === modelId 
-            ? { ...m, configuration }
-            : m
-        )
-      );
-      
-      // Update models list
-      setModels(prev => 
-        prev.map(m => 
-          m.id === modelId || m.Id === modelId 
-            ? { ...m, configuration }
-            : m
-        )
-      );
-      
-      setConfigModal({ isOpen: false, model: null });
-    } catch (error) {
-      throw error;
-    }
+const handleSaveConfiguration = async (modelId, configuration) => {
+    await billingModelService.update(modelId, { configuration });
+    
+    // Update selected models with new configuration
+    setSelectedModels(prev => 
+      prev.map(m => 
+        m.id === modelId || m.Id === modelId 
+          ? { ...m, configuration }
+          : m
+      )
+    );
+    
+    // Update models list
+    setModels(prev => 
+      prev.map(m => 
+        m.id === modelId || m.Id === modelId 
+          ? { ...m, configuration }
+          : m
+      )
+    );
+    
+    setConfigModal({ isOpen: false, model: null });
   };
 
   const handleSetPrimary = (modelId) => {
