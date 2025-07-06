@@ -461,11 +461,11 @@ const BillingModels = () => {
     }
   };
 
-  const handleSelectModel = (model) => {
-    const isSelected = selectedModels.some(selected => selected.id === model.id);
+const handleSelectModel = (model) => {
+    const isSelected = selectedModels.some(selected => selected.Id === model.Id);
     
     if (isSelected) {
-      setSelectedModels(selectedModels.filter(selected => selected.id !== model.id));
+      setSelectedModels(selectedModels.filter(selected => selected.Id !== model.Id));
       toast.info(`${model.name} removed from selection`);
     } else {
       const newModel = {
@@ -489,7 +489,7 @@ const handleSaveConfiguration = async (modelId, configuration) => {
     // Update selected models with new configuration
     setSelectedModels(prev => 
       prev.map(m => 
-        m.id === modelId || m.Id === modelId 
+        m.Id === modelId 
           ? { ...m, configuration }
           : m
       )
@@ -498,7 +498,7 @@ const handleSaveConfiguration = async (modelId, configuration) => {
     // Update models list
     setModels(prev => 
       prev.map(m => 
-        m.id === modelId || m.Id === modelId 
+        m.Id === modelId 
           ? { ...m, configuration }
           : m
       )
@@ -511,14 +511,14 @@ const handleSaveConfiguration = async (modelId, configuration) => {
     setSelectedModels(models => 
       models.map(model => ({
         ...model,
-        isPrimary: model.id === modelId
+        isPrimary: model.Id === modelId
       }))
     );
     toast.success('Primary billing model updated');
   };
 
   const handleRemoveModel = (modelId) => {
-    setSelectedModels(models => models.filter(model => model.id !== modelId));
+    setSelectedModels(models => models.filter(model => model.Id !== modelId));
     toast.info('Billing model removed');
   };
 
@@ -576,8 +576,8 @@ const handleSaveConfiguration = async (modelId, configuration) => {
             <h3 className="text-lg font-semibold text-gray-900">Active Billing Models</h3>
           </div>
           <div className="space-y-3">
-            {selectedModels.map((model) => (
-              <div key={model.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+{selectedModels.map((model) => (
+              <div key={model.Id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-secondary/10 rounded-lg">
                     <ApperIcon name="CreditCard" className="h-4 w-4 text-secondary" />
@@ -593,9 +593,9 @@ const handleSaveConfiguration = async (modelId, configuration) => {
                   {!model.isPrimary && (
                     <Button
                       size="sm"
-                      variant="ghost"
-                      onClick={() => handleSetPrimary(model.id)}
+onClick={() => handleSetPrimary(model.Id)}
                     >
+                      Set Primary
                       Set Primary
                     </Button>
                   )}
@@ -608,9 +608,9 @@ const handleSaveConfiguration = async (modelId, configuration) => {
                   </Button>
                   <Button
                     size="sm"
-                    variant="ghost"
-                    onClick={() => handleRemoveModel(model.id)}
+onClick={() => handleRemoveModel(model.Id)}
                     className="text-red-600 hover:text-red-700"
+                  >
                   >
                     <ApperIcon name="Trash2" className="h-4 w-4" />
                   </Button>
