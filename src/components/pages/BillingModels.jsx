@@ -606,11 +606,10 @@ onClick={() => handleSetPrimary(model.Id)}
                   >
                     Configure
                   </Button>
-                  <Button
+<Button
                     size="sm"
 onClick={() => handleRemoveModel(model.Id)}
                     className="text-red-600 hover:text-red-700"
-                  >
                   >
                     <ApperIcon name="Trash2" className="h-4 w-4" />
                   </Button>
