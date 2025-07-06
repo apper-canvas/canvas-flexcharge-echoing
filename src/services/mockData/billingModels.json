@@ -1,0 +1,52 @@
+[
+  {
+    "Id": 1,
+    "type": "one-time",
+    "name": "One-Time Purchase",
+    "description": "Single payment for digital products, downloads, or services",
+    "icon": "ShoppingCart",
+    "isActive": false,
+    "isPrimary": false,
+    "configuration": {}
+  },
+  {
+    "Id": 2,
+    "type": "credit",
+    "name": "Credit System",
+    "description": "Pre-purchased credits for pay-per-use services",
+    "icon": "Coins",
+    "isActive": false,
+    "isPrimary": false,
+    "configuration": {}
+  },
+  {
+    "Id": 3,
+    "type": "usage",
+    "name": "Usage-Based",
+    "description": "Pay-as-you-go based on actual consumption",
+    "icon": "Activity",
+    "isActive": false,
+    "isPrimary": false,
+    "configuration": {}
+  },
+  {
+    "Id": 4,
+    "type": "marketplace",
+    "name": "Marketplace",
+    "description": "Multi-vendor platform with commission-based revenue",
+    "icon": "Store",
+    "isActive": false,
+    "isPrimary": false,
+    "configuration": {}
+  },
+  {
+    "Id": 5,
+    "type": "milestone",
+    "name": "Milestone/Project",
+    "description": "Phased payments tied to project completion",
+    "icon": "Timeline",
+    "isActive": false,
+    "isPrimary": false,
+    "configuration": {}
+  }
+]

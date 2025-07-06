@@ -1,0 +1,84 @@
+[
+  {
+    "Id": 1,
+    "name": "John Smith",
+    "email": "john.smith@email.com",
+    "creditBalance": 150,
+    "createdAt": "2024-01-10T08:30:00.000Z",
+    "updatedAt": "2024-01-20T14:22:00.000Z",
+    "orders": [
+      {
+        "id": 1001,
+        "productName": "Premium Analytics Dashboard",
+        "amount": 99.99,
+        "status": "completed",
+        "createdAt": "2024-01-20T14:22:00.000Z"
+      },
+      {
+        "id": 1002,
+        "productName": "AI Image Generation",
+        "amount": 25.00,
+        "status": "completed",
+        "createdAt": "2024-01-18T10:15:00.000Z"
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@email.com",
+    "creditBalance": 0,
+    "createdAt": "2024-01-12T11:45:00.000Z",
+    "updatedAt": "2024-01-19T09:30:00.000Z",
+    "orders": [
+      {
+        "id": 1003,
+        "productName": "API Access Pro",
+        "amount": 85.50,
+        "status": "completed",
+        "createdAt": "2024-01-19T09:30:00.000Z"
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "name": "Michael Chen",
+    "email": "michael.chen@email.com",
+    "creditBalance": 75,
+    "createdAt": "2024-01-14T15:20:00.000Z",
+    "updatedAt": "2024-01-21T12:10:00.000Z",
+    "orders": [
+      {
+        "id": 1004,
+        "productName": "Template Bundle",
+        "amount": 49.99,
+        "status": "pending",
+        "createdAt": "2024-01-21T12:10:00.000Z"
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "name": "Emily Rodriguez",
+    "email": "emily.rodriguez@email.com",
+    "creditBalance": 200,
+    "createdAt": "2024-01-16T13:15:00.000Z",
+    "updatedAt": "2024-01-22T11:45:00.000Z",
+    "orders": [
+      {
+        "id": 1005,
+        "productName": "AI Image Generation",
+        "amount": 15.00,
+        "status": "completed",
+        "createdAt": "2024-01-22T11:45:00.000Z"
+      },
+      {
+        "id": 1006,
+        "productName": "Premium Analytics Dashboard",
+        "amount": 99.99,
+        "status": "completed",
+        "createdAt": "2024-01-20T16:30:00.000Z"
+      }
+    ]
+  }
+]

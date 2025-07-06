@@ -1,0 +1,12 @@
+[
+  {
+    "Id": 1,
+    "name": "FlexCharge Demo",
+    "businessType": "saas",
+    "currency": "USD",
+    "country": "US",
+    "logo": null,
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+]
