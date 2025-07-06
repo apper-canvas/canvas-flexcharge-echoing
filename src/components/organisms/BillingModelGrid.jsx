@@ -35,17 +35,22 @@ const BillingModelGrid = ({
         className
       )}
     >
-      {models.map((model, index) => (
-        <motion.div key={model.id || index} variants={item}>
-          <BillingModelCard
-            model={model}
-            isSelected={selectedModels.some(selected => selected.id === model.id)}
-            onSelect={onSelect}
-            onConfigure={onConfigure}
-            isConfigured={model.isConfigured}
-          />
-        </motion.div>
-      ))}
+{models?.map((model, index) => {
+        // Ensure unique key - prefer model.id, fallback to index with prefix
+        const uniqueKey = model?.id || `billing-model-${index}`;
+        
+        return (
+          <motion.div key={uniqueKey} variants={item}>
+            <BillingModelCard
+              model={model}
+              isSelected={selectedModels?.some(selected => selected?.id === model?.id) || false}
+              onSelect={onSelect}
+              onConfigure={onConfigure}
+              isConfigured={model?.isConfigured || false}
+            />
+          </motion.div>
+        );
+      }) || []}
     </motion.div>
   );
 };
